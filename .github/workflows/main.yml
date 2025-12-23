@@ -39,13 +39,16 @@ jobs:
       - name: Grant gradlew permission
         run: chmod +x gradlew
 
-      - name: Build TV Release APK
-        run: |
-          ./gradlew :app:assembleTvRelease
+      - name: Build Leanback ARM64 Release
+        run: ./gradlew :app:assembleLeanbackArm64_v8aRelease
 
-      - name: Upload APK
+      - name: Build Mobile ARM64 Release
+        run: ./gradlew :app:assembleMobileArm64_v8aRelease
+
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: FongMi-TV-APK
+          name: FongMiTV-ARM64
           path: |
-            app/build/outputs/apk/tv/release/*.apk
+            app/build/outputs/apk/leanbackArm64_v8a/release/*.apk
+            app/build/outputs/apk/mobileArm64_v8a/release/*.apk

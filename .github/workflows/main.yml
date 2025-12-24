@@ -11,6 +11,12 @@ jobs:
     name: Build TV APK
     runs-on: ubuntu-latest
 
+    env:
+      KEYSTORE_FILE: app/keystore.jks
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -46,25 +52,19 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Leanback ARM64 Release
-        env:
-          KEYSTORE_FILE: keystore.jks
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :app:assembleLeanbackArm64_v8aRelease
 
       - name: Build Mobile ARM64 Release
-        env:
-          KEYSTORE_FILE: keystore.jks
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :app:assembleMobileArm64_v8aRelease
 
-      - name: Upload APKs
+      - name: Upload Leanback APK
         uses: actions/upload-artifact@v4
         with:
-          name: FongMiTV-ARM64
-          path: |
-            app/build/outputs/apk/leanbackArm64_v8a/release/*.apk
-            app/build/outputs/apk/mobileArm64_v8a/release/*.apk
+          name: FongMiTV-Leanback-ARM64
+          path: app/build/outputs/apk/leanbackArm64_v8a/release/*.apk
+
+      - name: Upload Mobile APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: FongMiTV-Mobile-ARM64
+          path: app/build/outputs/apk/mobileArm64_v8a/release/*.apk

@@ -54,6 +54,9 @@ jobs:
       - name: Build Leanback ARM64 Release
         run: ./gradlew :app:assembleLeanbackArm64_v8aRelease
 
+      - name: Build Leanback Arm V7
+        run: ./gradlew :app:assembleLeanbackArmeabi_v7aRelease
+
       - name: Build Mobile ARM64 Release
         run: ./gradlew :app:assembleMobileArm64_v8aRelease
 
@@ -62,6 +65,12 @@ jobs:
         with:
           name: FongMiTV-Leanback-ARM64
           path: app/build/outputs/apk/leanbackArm64_v8a/release/leanback-arm64_v8a.apk
+
+      - name: Upload Leanback Arm V7 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: FongMiTV-Leanback-ARMV7
+          path: app/build/outputs/apk/leanbackArmeabi_v7a/release/leanback-armeabi_v7a.apk
 
       - name: Upload Mobile APK
         uses: actions/upload-artifact@v4
